@@ -1,0 +1,189 @@
+<!--
+@license
+Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../flickr-photos-search/flickr-photos-search.html">
+<link rel="import" href="../swipeable-card/swipeable-card.html">
+<link rel="import" href="../paper-tabs/paper-tabs.html">
+<link rel="import" href="../core-pages/core-pages.html">
+<link rel="import" href="../core-localstorage/core-localstorage.html">
+
+<!--
+A sample app that incorporates &lt;flickr-photos-search>, &lt;swipeable-card>, and &lt;core-localstorage>.
+
+##### Example
+
+    <picture-swiper apikey="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" tags="travel"></picture-swiper>
+
+@element picture-swiper
+@blurb A sample app that incorporates &lt;flickr-photos-search>, &lt;swipeable-card>, and &lt;core-localstorage>.
+@homepage https://polymerlabs.github.io/picture-swiper/
+-->
+<polymer-element name="picture-swiper" attributes="apikey tags">
+  <template>
+    <style>
+    paper-tabs {
+      background-color: #00bcd4;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 20;
+      color: #FFF;
+    }
+
+    .container {
+      background-color: #EEEEEE;
+      box-sizing: border-box;
+      padding-top: 50px;
+      overflow: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    swipeable-card {
+      position: relative;
+      width: 280px;
+      height: 280px;
+      padding: 10px;
+      left: 50%;
+      margin-top: 20px;
+      margin-bottom: 20px;
+      margin-left: -150px;
+    }
+
+    img {
+      max-width: 100%;
+      max-height: 100%;
+      pointer-events: none;
+    }
+
+    /**
+     * We want the first swipeable card element (in DOM order) to appear on the top of the stack.
+     * That way, we can append more photos at the end if we load more photos. Without CSS, the
+     * last element will appear on top. We overcome this by explicitly setting the z-index on the
+     * first two elements (since the second element will appear as we swipe away the first
+     * element). We also rotate the last two photos to show the user that there are more photos in
+     * the stack.
+     */
+    .photos-page swipeable-card {
+      position: absolute;
+      display: none;
+    }
+
+    .photos-page swipeable-card:last-of-type {
+      display: block;
+      transform: rotate(-2deg);
+      -webkit-transform: rotate(-2deg);
+    }
+
+    .photos-page swipeable-card:nth-last-of-type(2) {
+      display: block;
+      transform: rotate(3deg);
+      -webkit-transform: rotate(3deg);
+    }
+
+    .photos-page swipeable-card:nth-of-type(2) {
+      display: block;
+      z-index: 9;
+    }
+
+    .photos-page swipeable-card:first-of-type {
+      display: block;
+      z-index: 10;
+      transform: rotate(0deg);
+      -webkit-transform: rotate(0deg);
+    }
+    </style>
+
+    <flickr-photos-search
+      id="flickrData"
+      apikey="{{apikey}}"
+      tags="{{tags}}"
+      perpage="10"
+      photos="{{photos}}"></flickr-photos-search>
+
+    <core-localstorage name="likedPhotos" value="{{likedPhotos}}"></core-localstorage>
+
+    <paper-tabs selected="{{selectedTabIndex}}">
+      <paper-tab>Photos</paper-tab>
+      <paper-tab>Liked</paper-tab>
+    </paper-tabs>
+
+    <core-pages fit selected="{{selectedTabIndex}}">
+      <div class="container photos-page">
+        <template repeat="{{photos}}">
+          <swipeable-card on-swipeable-card-swipe-away="{{handlePhotosStackSwipeAway}}" title="{{title}}">
+            <img src="{{src}}" title="{{title}}" />
+          </swipeable-card>
+        </template>
+      </div>
+
+      <div class="container liked-page">
+        <template repeat="{{likedPhotos}}">
+          <swipeable-card on-swipeable-card-swipe-away="{{handleLikedPhotoSwipeAway}}" title="{{title}}">
+            <img src="{{src}}" title="{{title}}" />
+          </swipeable-card>
+        </template>
+      </div>
+    </core-pages>
+
+  </template>
+
+  <script>
+    Polymer({
+      /**
+       * The Flickr API key
+       *
+       * @attribute apikey
+       * @type string
+       */
+      apikey: null,
+
+      /**
+       * The tags to query
+       *
+       * @attribute tags
+       * @type string
+       */
+      tags: null,
+
+      photos: null,
+
+      selectedTabIndex: 0,
+
+      likedPhotos: null,
+
+      domReady: function() {
+        if (this.likedPhotos === null) {
+          this.likedPhotos = [];
+        }
+      },
+
+      handlePhotosStackSwipeAway: function(evt, details) {
+        var photo = this.photos.shift();
+
+        if (details.direction === 'right') {
+          this.likedPhotos.push(photo);
+        }
+
+        if (this.photos.length < 5) {
+          this.$.flickrData.fetchNextPage();
+        }
+      },
+
+      handleLikedPhotoSwipeAway: function(evt, details) {
+        var target = evt.target;
+        var index = Array.prototype.indexOf.call(target.parentElement.children, target);
+        if (index !== -1) {
+          // Splice index - 1, since <template> is the first child of of target.parentElement.
+          this.likedPhotos.splice(index - 1, 1);
+        }
+      }
+    });
+  </script>
+</polymer-element>
