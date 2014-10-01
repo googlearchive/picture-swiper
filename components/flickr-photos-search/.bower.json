@@ -1,0 +1,29 @@
+{
+  "name": "flickr-photos-search",
+  "authors": [
+    "Keanu Lee <keanulee@google.com>"
+  ],
+  "description": "A data source element for searching and binding to Flickr photos.",
+  "keywords": [
+    "polymer",
+    "web-components",
+    "flickr",
+    "photo",
+    "photos"
+  ],
+  "main": "flickr-photos-search.html",
+  "homepage": "https://polymerlabs.github.io/flickr-photos-search/",
+  "dependencies": {
+    "polymer": "Polymer/polymer#>=0.4.0 <1.0.0",
+    "core-ajax": "Polymer/core-ajax#>=0.4.0 <1.0.0"
+  },
+  "_release": "ce6c7bc7b0",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "ce6c7bc7b0f5135337d51cade4e300482fb07649"
+  },
+  "_source": "git://github.com/PolymerLabs/flickr-photos-search.git",
+  "_target": "master",
+  "_originalSource": "PolymerLabs/flickr-photos-search"
+}

@@ -1,0 +1,33 @@
+<!--
+@license
+Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<!doctype html>
+<html lang="en" data-framework="polymer">
+  <head>
+    <meta charset="utf-8">
+    <title>flickr-photos-search</title>
+
+    <script src="../platform/platform.js"></script>
+    <link rel="import" href="flickr-photos-search.html">
+  </head>
+  <body fullbleed unresolved>
+    <template is="auto-binding">
+      <!-- Note: The following API key is included for demonstration purposes only. Please create your own API key at https://www.flickr.com/services/apps. -->
+      <flickr-photos-search
+        apikey="edb5db834ac1ed8329946ad707ace131"
+        tags="travel"
+        perpage="10"
+        photos="{{photos}}"></flickr-photos-search>
+
+      <template repeat="{{photos}}">
+        <img src="{{src}}" title="{{title}}" />
+      </template>
+    </template>
+  </body>
+</html>

@@ -1,0 +1,17 @@
+{
+  "name": "swipeable-card",
+  "private": true,
+  "dependencies": {
+    "polymer": "Polymer/polymer#master"
+  },
+  "homepage": "https://github.com/PolymerLabs/swipeable-card",
+  "_release": "5806772691",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "58067726915cf774a75cf146150e2f972d213f5d"
+  },
+  "_source": "git://github.com/PolymerLabs/swipeable-card.git",
+  "_target": "master",
+  "_originalSource": "PolymerLabs/swipeable-card"
+}

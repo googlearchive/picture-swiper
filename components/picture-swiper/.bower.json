@@ -1,0 +1,36 @@
+{
+  "name": "picture-swiper",
+  "authors": [
+    "Keanu Lee <keanulee@google.com>"
+  ],
+  "description": "A sample app that incorporates <flickr-photos-search>, <swipeable-card>, and <core-localstorage>.",
+  "keywords": [
+    "polymer",
+    "web-components",
+    "flickr",
+    "photo",
+    "photos",
+    "localstorage"
+  ],
+  "main": "picture-swiper.html",
+  "homepage": "https://polymerlabs.github.io/picture-swiper/",
+  "dependencies": {
+    "polymer": "Polymer/polymer#>=0.4.0 <1.0.0",
+    "flickr-photos-search": "PolymerLabs/flickr-photos-search#master",
+    "swipeable-card": "PolymerLabs/swipeable-card#master",
+    "paper-tabs": "Polymer/paper-tabs#>=0.4.0 <1.0.0",
+    "core-pages": "Polymer/core-pages#>=0.4.0 <1.0.0",
+    "core-localstorage": "Polymer/core-localstorage#>=0.4.0 <1.0.0",
+    "core-image": "Polymer/core-image#master"
+  },
+  "_release": "bcb645120a",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "bcb645120a8db65ff2f4fc952e4354f103b6206f"
+  },
+  "_source": "git://github.com/polymerlabs/picture-swiper.git",
+  "_target": "master",
+  "_originalSource": "polymerlabs/picture-swiper",
+  "_direct": true
+}

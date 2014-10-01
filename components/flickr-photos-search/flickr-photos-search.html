@@ -1,0 +1,105 @@
+<!--
+@license
+Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../core-ajax/core-ajax.html">
+
+<!--
+A data source element for searching and binding to Flickr photos.
+
+##### Example
+
+    <flickr-photos-search
+      apikey="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+      tags="travel"
+      photos="{{photos}}"></flickr-photos-search>
+
+@element flickr-photos-search
+@blurb A data source element for searching and binding to Flickr photos.
+@homepage https://polymerlabs.github.io/flickr-photos-search/
+-->
+<polymer-element name="flickr-photos-search" attributes="apikey tags perpage photos">
+  <template>
+    <core-ajax
+      auto
+      id="coreAjax"
+      url="https://api.flickr.com/services/rest"
+      params='{"method":"flickr.photos.search", "tags":"{{tags}}", "api_key":"{{apikey}}", "format":"json", "nojsoncallback":1, "per_page":"{{perpage}}", "page":"{{page}}"}'
+      handleAs="json"
+      on-core-response="{{handleResponse}}"></core-ajax>
+  </template>
+
+  <script>
+    Polymer({
+      /**
+       * The Flickr API key.
+       *
+       * @attribute apikey
+       * @type string
+       */
+      apikey: null,
+
+      /**
+       * The tags to query.
+       *
+       * @attribute tags
+       * @type string
+       */
+      tags: null,
+
+      /**
+       * The number of photos to load on each request.
+       *
+       * @attribute [perpage]
+       * @type number
+       * @default 10
+       */
+      perpage: 10,
+
+      /**
+       * An array of photo descriptions. Each photo description has the following properties:
+       * - src: The URL of the photo.
+       * - title: The title of the photo.
+       *
+       * @attribute photos
+       * @type Array.<Object>
+       */
+      photos: null,
+
+      page: 1,
+
+      ready: function() {
+        this.photos = [];
+      },
+
+      handleResponse: function(evt, details) {
+        if (details.response.stat && details.response.stat === 'ok') {
+          var photos = details.response.photos;
+          var photoArray = photos.photo;
+
+          photoArray.forEach(function(photo) {
+            this.photos.push({
+              src: 'https://farm' + photo.farm + '.staticflickr.com/' + photo.server + '/' + photo.id + '_' + photo.secret + '.jpg',
+              title: photo.title
+            });
+          }.bind(this));
+        }
+      },
+
+      /**
+       * Loads the next page of photos and appends them to the photos array.
+       *
+       * @method fetchNextPage
+       */
+      fetchNextPage: function() {
+        this.page++;
+      }
+    });
+  </script>
+</polymer-element>

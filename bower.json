@@ -1,0 +1,7 @@
+{
+  "name": "picture-swiper#gh-pages",
+  "private": true,
+  "dependencies": {
+    "picture-swiper": "polymerlabs/picture-swiper#master"
+  }
+}
