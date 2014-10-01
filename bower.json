@@ -21,6 +21,7 @@
     "swipeable-card": "PolymerLabs/swipeable-card#master",
     "paper-tabs": "Polymer/paper-tabs#>=0.4.0 <1.0.0",
     "core-pages": "Polymer/core-pages#>=0.4.0 <1.0.0",
-    "core-localstorage": "Polymer/core-localstorage#>=0.4.0 <1.0.0"
+    "core-localstorage": "Polymer/core-localstorage#>=0.4.0 <1.0.0",
+    "core-image": "Polymer/core-image#master"
   }
 }
